@@ -110,6 +110,10 @@
         [nextChar.fn]()
         .trigger(getKeyEvent('keyup'), nextChar);
 
+        if (this.$input.val() !== inputValue) {
+          this.$input.trigger(getKeyEvent('input'), nextChar);
+        }
+
         break;
       case 'undefined':
         this.stop();
