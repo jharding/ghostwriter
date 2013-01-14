@@ -18,14 +18,14 @@ var strokes = {
 
     $input
     .trigger(utils.getKeyEvent('keydown', keyCode))
-    .val(val.before.substr(0, newCursorPos) + val.after)
+    .val(val.before.slice(0, -1) + val.after)
     .trigger(utils.getKeyEvent('keyup', keyCode));
 
     if ($input.val() !== val.all) {
       $input.trigger(utils.getKeyEvent('input', keyCode));
     }
 
-    utils.setCursorPos($input, cursorPos);
+    utils.setCursorPos($input, newCursorPos);
   }
 
 , right: function($input, cursorPos) {

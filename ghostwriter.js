@@ -135,11 +135,11 @@
         },
         backspace: function($input, cursorPos, val) {
             var keyCode = 8, newCursorPos = cursorPos === 0 ? 0 : cursorPos - 1;
-            $input.trigger(utils.getKeyEvent("keydown", keyCode)).val(val.before.substr(0, newCursorPos) + val.after).trigger(utils.getKeyEvent("keyup", keyCode));
+            $input.trigger(utils.getKeyEvent("keydown", keyCode)).val(val.before.slice(0, -1) + val.after).trigger(utils.getKeyEvent("keyup", keyCode));
             if ($input.val() !== val.all) {
                 $input.trigger(utils.getKeyEvent("input", keyCode));
             }
-            utils.setCursorPos($input, cursorPos);
+            utils.setCursorPos($input, newCursorPos);
         },
         right: function($input, cursorPos) {
             var keyCode = 39;
