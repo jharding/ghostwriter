@@ -1,7 +1,10 @@
 var utils = (function() {
-  var nativeForEach = [].forEach
-    , nativeMap = [].map
-    , breaker = {};
+  var nativeForEach = Array.prototype.forEach
+    , nativeMap = Array.prototype.map
+    , nativeBind = Function.prototype.bind
+    , slice = Array.prototype.slice
+    , breaker = {}
+    , Ctor = function() {};
 
   return {
     // common utilities
@@ -62,6 +65,35 @@ var utils = (function() {
       });
 
       return results;
+    }
+
+    // stolen from underscore
+  , bind: function(func, context) {
+      var that, args, bound, result;
+
+      if (func.bind === nativeBind && nativeBind) {
+        return nativeBind.apply(func, slice.call(arguments, 1));
+      }
+
+      if (!_.isFunction(func)) {
+        throw new TypeError();
+      }
+
+      args = slice.call(arguments, 2);
+
+      return bound = function() {
+        if (!this instanceof bound) {
+          return func.apply(context, args.concat(slice.call(arguments)));
+        }
+
+        ctor.prototype = func.prototype;
+        that = new Ctor();
+        ctor.prototype = null;
+
+        result = func.apply(self, args.concat(slice.call(arguments)));
+
+        return Object(result) === result ? result : that;
+      };
     }
 
   , merge: function(array) {
