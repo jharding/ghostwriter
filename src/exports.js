@@ -1,7 +1,7 @@
 // exports
 // -------
 
-utils.mixin(exports, strokes, {
+utils.mixin(exports, utils.repeatify(strokes), {
   haunt: function(o) { return new Ghostwriter(o); }
 });
 

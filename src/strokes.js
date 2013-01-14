@@ -43,4 +43,12 @@ var strokes = {
     utils.setCursorPos($input, cursorPos - 1);
     $input.trigger(utils.getKeyEvent('keyup'), keyCode);
   }
+
+, selectAll: function($input) {
+    $input.select();
+  }
+
+, deleteAll: function($input) {
+    $input.val('');
+  }
 };
