@@ -1,11 +1,11 @@
-var Ghostwriter = (function() {
+var Ghost = (function() {
   // constructor
   // -----------
 
-  function Ghostwriter(o) {
+  function Ghost(o) {
     this.loop = !!o.loop;
     this.intervalId = null;
-    this.interval = o.interval || 200;
+    this.interval = o.interval || 300;
 
     this.$input = $(o.input);
     this.originalInputVal = this.$input.val();
@@ -17,7 +17,7 @@ var Ghostwriter = (function() {
   // public methods
   // --------------
 
-  utils.mixin(Ghostwriter.prototype, {
+  utils.mixin(Ghost.prototype, {
     start: function() {
       if (!this.intervalId) {
         this.$input.focus();
@@ -29,11 +29,21 @@ var Ghostwriter = (function() {
       return this;
     }
 
+  , pause: function() {
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+        this.intervalId =  null;
+      }
+
+      return this;
+    }
+
   , stop: function() {
       if (this.intervalId) {
         clearInterval(this.intervalId);
         this.intervalId =  null;
         this.$input.blur();
+        this.$input.val(this.originalInputVal);
       }
 
       return this;
@@ -46,11 +56,6 @@ var Ghostwriter = (function() {
       this.start();
 
       return this;
-    }
-
-  , restore: function() {
-      this.stop();
-      this.$input.val(this.originalInputVal);
     }
   });
 
@@ -100,5 +105,5 @@ var Ghostwriter = (function() {
     }
   }
 
-  return Ghostwriter;
+  return Ghost;
 })();

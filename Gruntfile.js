@@ -1,7 +1,7 @@
 var jsFiles = [
   'src/utils.js'
 , 'src/strokes.js'
-, 'src/ghostwriter.js'
+, 'src/ghost.js'
 , 'src/exports.js'
 ];
 
