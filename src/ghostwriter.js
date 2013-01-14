@@ -7,7 +7,7 @@ var Ghostwriter = (function() {
     this.interval = o.interval || 200;
 
     this.$input = $(o.input);
-    this.orignalInputValue = this.$input.val();
+    this.originalInputVal = this.$input.val();
 
     this.story = [];
     this.manuscript = parseManuscript(o.manuscript);
@@ -22,7 +22,7 @@ var Ghostwriter = (function() {
         this.$input.focus();
         this.story = this.story.length ? this.story : this.manuscript.slice(0);
 
-        this.intervalId = setInterval(write.bind(this), this.interval);
+        this.intervalId = setInterval(utils.bind(write, this), this.interval);
       }
 
       return this;
@@ -40,11 +40,16 @@ var Ghostwriter = (function() {
 
   , restart: function() {
       this.stop();
-      this.$input.val(this.originalInputValue);
+      this.$input.val(this.originalInputVal);
       this.story = [];
       this.start();
 
       return this;
+    }
+
+  , restore: function() {
+      this.stop();
+      this.$input.val(this.originalInputVal);
     }
   });
 
@@ -54,10 +59,10 @@ var Ghostwriter = (function() {
   function parseManuscript(manuscript) {
     manuscript = utils.isString(manuscript) ? [manuscript] : manuscript;
 
-    manuscript = manuscript.map(function(section) {
+    manuscript = utils.map(manuscript, function(section) {
       if (utils.isString(section)) {
-        return section.split('').map(function(c) {
-          return strokes.character.bind(null, c);
+        return utils.map(section.split(''), function(c) {
+          return utils.bind(strokes.character, null, c);
         });
       }
 
