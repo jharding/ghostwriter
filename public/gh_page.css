@@ -1,0 +1,32 @@
+body {
+  text-align: center;
+}
+
+.haunted {
+  width: 800px;
+  height: 60px;
+  margin-top: 150px;
+  padding: 5px 8px;
+  font-size: 40px;
+  line-height: 50px;
+  box-sizing: border-box;
+}
+
+/* sticky footer */
+/* ------------- */
+
+html, body {
+  height: 100%;
+}
+
+.sticky-footer-wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -100px;
+}
+
+footer,
+.sticky-footer-push {
+  height: 100px;
+}
