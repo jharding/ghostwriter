@@ -3,6 +3,7 @@ var Ghostwriter = (function() {
   // -----------
 
   function Ghostwriter(o) {
+    this.loop = !!o.loop;
     this.intervalId = null;
     this.interval = o.interval || 200;
 
@@ -92,7 +93,7 @@ var Ghostwriter = (function() {
         );
         break;
       case 'undefined':
-        this.stop();
+        this.loop ? this.restart() : this.stop();
         break;
       default:
         throw new Error('bad story');
