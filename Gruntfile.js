@@ -12,7 +12,16 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-      options: { wrap: 'ghostwriter' }
+      options: {
+        wrap: 'ghostwriter'
+      , banner: [
+          '// ghostwriter'
+        , '// ==========='
+        , '// * GitHub: https://github.com/jharding/ghostwriter'
+        , '// * Copyright (c) <%= grunt.template.today("yyyy") %> Jake Harding'
+        , '// * Licensed under the MIT license.\n'
+        ].join('\n')
+      }
     , ghostwriter: {
         options: { mangle: false, beautify: true, compress: false }
       , files: { 'ghostwriter.js': jsFiles }
