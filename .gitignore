@@ -1,4 +1,5 @@
 .DS_Store
 *.swp
 
+/ghostwriter*.js
 /node_modules

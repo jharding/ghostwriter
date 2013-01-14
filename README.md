@@ -8,11 +8,17 @@ Ghostwriter is a library for haunting your web page, specifically input[type="te
 Download
 --------
 
-**Dependencies:** Ghostwriter requires jQuery 1.7+.
+Ghostwriter hasn't been released yet. If you'd like to get a copy of the bleeding-edge version, do the following:
 
-* development: [ghostwriter.js][ghostwriter.js]
-* production(minified): [ghostwriter.min.js][ghostwriter.js]
+```
+$ git clone git://github.com/jharding/ghostwriter.git
+$ cd ghostwriter
+$ npm install
+$ npm install -g grunt-cli
+$ grunt
+```
 
+This will build ghostwriter.js and ghostwriter.min.js.
 
 Usage
 -----
@@ -179,6 +185,4 @@ License
 Copyright (c) 2013 [Jake Harding](http://thejakeharding.com)  
 Licensed under the MIT License.
 
-[ghostwriter.js]: https://raw.github.com/jharding/ghostwriter/master/ghostwriter.js
-[ghostwriter.min.js]: https://raw.github.com/jharding/ghostwriter/master/ghostwriter.min.js
 [options]: https://github.com/jharding/ghostwriter#options
