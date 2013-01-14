@@ -41,6 +41,7 @@ var Ghost = (function() {
   , stop: function() {
       if (this.intervalId) {
         clearInterval(this.intervalId);
+        this.story = [];
         this.intervalId =  null;
         this.$input.blur();
         this.$input.val(this.originalInputVal);
@@ -51,8 +52,6 @@ var Ghost = (function() {
 
   , restart: function() {
       this.stop();
-      this.$input.val(this.originalInputVal);
-      this.story = [];
       this.start();
 
       return this;
@@ -98,7 +97,7 @@ var Ghost = (function() {
         );
         break;
       case 'undefined':
-        this.loop ? this.restart() : this.stop();
+        this.loop ? this.restart() : this.pause();
         break;
       default:
         throw new Error('bad story');
