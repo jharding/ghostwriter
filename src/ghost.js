@@ -19,8 +19,12 @@ var Ghost = (function() {
 
   utils.mixin(Ghost.prototype, {
     start: function() {
+      var eventType;
+
       if (!this.intervalId) {
-        this.$input.focus();
+        eventType = this.story.length ? 'resume' : 'start';
+        this.$input.trigger('ghostwriter:' + eventType).focus();
+
         this.story = this.story.length ? this.story : this.manuscript.slice(0);
 
         this.intervalId = setInterval(utils.bind(write, this), this.interval);
@@ -31,6 +35,8 @@ var Ghost = (function() {
 
   , pause: function() {
       if (this.intervalId) {
+        this.$input.trigger('ghostwriter:pause');
+
         clearInterval(this.intervalId);
         this.intervalId =  null;
       }
@@ -40,6 +46,8 @@ var Ghost = (function() {
 
   , stop: function() {
       if (this.intervalId) {
+        this.$input.trigger('ghostwriter:stop');
+
         clearInterval(this.intervalId);
         this.story = [];
         this.intervalId =  null;
