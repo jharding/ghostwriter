@@ -1,6 +1,7 @@
 var jsFiles = [
   'src/utils.js'
-, 'src/strokes.js'
+, 'src/stroke_builder.js'
+, 'src/stroke_definitions.js'
 , 'src/ghost.js'
 , 'src/exports.js'
 ];

@@ -74,13 +74,9 @@ var Ghost = (function() {
 
     manuscript = utils.map(manuscript, function(section) {
       if (utils.isString(section)) {
-        return utils.map(section.split(''), function(c) {
-          return utils.bind(strokes.character, null, c);
+        return utils.map(section.split(''), function(char) {
+          return exports.character(char);
         });
-      }
-
-      else if (utils.isRepeatified(section)) {
-        return section(1);
       }
 
       return section;
@@ -91,24 +87,23 @@ var Ghost = (function() {
 
   function write() {
     var next = this.story.shift()
-      , cursorPos = utils.getCursorPos(this.$input) || 0
       , inputVal = this.$input.val()
-      , beforeCursor = inputVal.substr(0, cursorPos)
-      , afterCursor = inputVal.substr(cursorPos);
+      , cursorPos = utils.getCursorPos(this.$input) || 0
+      , o = {
+          cursorPos: cursorPos
+        , val: {
+            all: inputVal
+          , beforeCursor: inputVal.substr(0, cursorPos)
+          , afterCursor: inputVal.substr(cursorPos)
+          }
+        };
 
-    switch (typeof next) {
-      case 'function':
-        next(
-          this.$input
-        , cursorPos
-        , { all: inputVal, before: beforeCursor, after: afterCursor}
-        );
-        break;
-      case 'undefined':
-        this.loop ? this.restart() : this.pause();
-        break;
-      default:
-        throw new Error('bad story');
+    if (typeof next !== 'undefined') {
+      (utils.isFunction(next) ? next() : next).exec(this.$input, o);
+    }
+
+    else {
+      this.loop ? this.restart() : this.pause();
     }
   }
 

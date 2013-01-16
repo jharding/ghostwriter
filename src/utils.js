@@ -14,6 +14,10 @@ var utils = (function() {
       return typeof obj === 'string';
     }
 
+  , isFunction: function(obj) {
+      return typeof obj === 'function';
+    }
+
   , isArray: function(obj) {
       Object.prototype.toString.call(obj) === '[object Array]';
     }
@@ -110,31 +114,6 @@ var utils = (function() {
       }
 
       return target;
-    }
-
-    // ghostwriter specific utilities
-    // ------------------------------
-
-  , isRepeatified: function(obj) {
-      return '_repeatified_' in obj;
-    }
-
-
-  , repeatify: function(strokes) {
-      var repeatifiedStrokes = {};
-
-      utils.each(strokes, function(val, key) {
-        repeatifiedStrokes[key] = function repeat(times) {
-          var strokes = [];
-          while (times--) { strokes.push(val); }
-
-          return strokes;
-        };
-
-        repeatifiedStrokes[key]._repeatified_ = true;
-      });
-
-      return repeatifiedStrokes;
     }
 
     // stroke helpers

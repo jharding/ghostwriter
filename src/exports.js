@@ -1,10 +1,6 @@
 // exports
 // -------
 
-utils.mixin(exports, utils.repeatify(strokes), {
+utils.mixin(exports, stroke.builder(), {
   haunt: function(o) { return new Ghost(o); }
 });
-
-// character stroke is special, don't expose it
-delete exports.character;
-
