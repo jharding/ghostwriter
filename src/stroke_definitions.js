@@ -95,5 +95,9 @@ stroke.definitions = {
     }
   }
 
+, trigger: function(o, eventType) {
+    this.trigger(eventType);
+  }
+
 , noop: function() {}
 };
