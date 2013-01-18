@@ -1,10 +1,6 @@
 var utils = (function() {
-  var nativeForEach = Array.prototype.forEach
-    , nativeMap = Array.prototype.map
-    , nativeBind = Function.prototype.bind
-    , slice = Array.prototype.slice
-    , breaker = {}
-    , Ctor = function() {};
+  var concat = Array.prototype.concat
+    , slice = Array.prototype.slice;
 
   return {
     // common utilities
@@ -15,105 +11,31 @@ var utils = (function() {
     }
 
   , isFunction: function(obj) {
-      return typeof obj === 'function';
+      return $.isFunction(obj);
     }
 
   , isArray: function(obj) {
-      Object.prototype.toString.call(obj) === '[object Array]';
+      return $.isArray(obj);
     }
 
-    // stolen from underscore
-  , each: function(obj, iterator, context) {
-      if (!obj)  { return; }
-
-      // native
-      if (nativeForEach && obj.forEach === nativeForEach) {
-        obj.forEach(iterator, context);
-      }
-
-      // non-native array
-      else if (obj.length === +obj.length) {
-        for (var i = 0, l = obj.length; i < l; i++) {
-          if (iterator.call(context, obj[i], i, obj) === breaker) {
-            return;
-          }
-        }
-      }
-
-      // non-native object
-      else {
-        for (var key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            if (iterator.call(context, obj[key], key, obj) === breaker) {
-              return;
-            }
-          }
-        }
-      }
+  , each: function() {
+      return $.each.apply($, arguments);
     }
 
-    // stolen from underscore
-  , map: function(obj, iterator, context) {
-      var results = [];
-
-      if (!obj) { return results; }
-
-      // native
-      if (nativeMap && obj.map === nativeMap) {
-        return obj.map(iterator, context);
-      }
-
-      // non-native
-      utils.each(obj, function(value, index, list) {
-        results[results.length] = iterator.call(context, value, index, list);
-      });
-
-      return results;
+  , map: function() {
+      return $.map.apply($, arguments);
     }
 
-    // stolen from underscore
-  , bind: function(func, context) {
-      var that, args, bound, result;
-
-      if (func.bind === nativeBind && nativeBind) {
-        return nativeBind.apply(func, slice.call(arguments, 1));
-      }
-
-      if (!_.isFunction(func)) {
-        throw new TypeError();
-      }
-
-      args = slice.call(arguments, 2);
-
-      return bound = function() {
-        if (!this instanceof bound) {
-          return func.apply(context, args.concat(slice.call(arguments)));
-        }
-
-        ctor.prototype = func.prototype;
-        that = new Ctor();
-        ctor.prototype = null;
-
-        result = func.apply(self, args.concat(slice.call(arguments)));
-
-        return Object(result) === result ? result : that;
-      };
+  , bind: function() {
+      return $.proxy.apply($, arguments);
     }
 
   , merge: function(array) {
-      return [].concat.apply([], array);
+      return concat.apply([], array);
     }
 
-  , mixin: function(target) {
-      var args = [].slice.call(arguments, 1), source;
-
-      while (source = args.shift()) {
-        for (var k in source) {
-          source.hasOwnProperty(k) && (target[k] = source[k]);
-        }
-      }
-
-      return target;
+  , mixin: function() {
+      return $.extend.apply($, arguments);
     }
 
     // stroke helpers

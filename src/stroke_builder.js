@@ -2,14 +2,14 @@ var stroke = (function() {
   function strokeBuilder() {
     var strokes = {};
 
-    utils.each(stroke.definitions, function(definition, key) {
-      strokes[key] = factory(definition);
+    utils.each(stroke.definitions, function(key, definition) {
+      strokes[key] = strokeFactory(definition);
     });
 
     return strokes;
   }
 
-  function factory(definition, name) {
+  function strokeFactory(definition, name) {
     var Stroke = function(args) {
       if (!(this instanceof Stroke)) {
         return new Stroke([].slice.call(arguments, 0));
