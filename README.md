@@ -18,7 +18,7 @@ $ npm install -g grunt-cli
 $ grunt
 ```
 
-This will build ghostwriter.js and ghostwriter.min.js.
+This will build *ghostwriter.js* and *ghostwriter.min.js* in the root of the repo.
 
 Vocab
 -----
@@ -213,6 +213,20 @@ Found a bug? Create an issue on GitHub.
 
 https://github.com/jharding/ghostwriter/issues
 
+
+Developers
+----------
+
+If you plan on contributing to Ghostwriter, be sure to read the [contributing guidelines][contributing-guidelines]. 
+
+In order to build and test Ghostwriter, you'll need to install Ghostwriter's devDependencies (`$ npm install`) and have the [grunt-cli][grunt-cli] installed. Below is an overview of Ghostwriter's Grunt tasks that'll be useful in development.
+
+* `grunt build` - Builds *ghostwriter.js* from source files.
+* `grunt lint` - Runs source and test files through JSHint.
+* `grunt test` - Runs the test suite with PhantomJS.
+* `grunt test:browser` - Runs the test suite in your default browser.
+* `grunt watch` - Rebuilds *ghostwriter.js* whenever a source file is modified.
+
 Versioning
 ----------
 
@@ -237,3 +251,5 @@ Licensed under the MIT License.
 [strokes]: https://github.com/jharding/ghostwriter#strokes
 [options]: https://github.com/jharding/ghostwriter#options
 [stroke_definitions]: https://github.com/jharding/ghostwriter/blob/master/src/stroke_definitions.js
+[contributing-guidelines]: https://github.com/jharding/ghostwriter/blob/master/RCONTRIBUTING.md
+[grunt-cli]: https://github.com/gruntjs/grunt-cli
