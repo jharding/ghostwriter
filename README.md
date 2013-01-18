@@ -3,7 +3,7 @@
 Ghostwriter
 ===========
 
-Ghostwriter is a library for haunting your web page, specifically input[type="test"] and textareas on your web page. You provide Ghostwriter the element to haunt along with a set of instructions detailing the haunting (`manuscript`) and Ghostwriter will take care if the rest. It's quite neat.
+Ghostwriter is a JavaScript library that provides a simple API for programmatically interacting with `input[type="text"]` and `textarea` elements. Give Ghostwriter the element you'd like to interact with along with a set of instructions that detail the interaction and Ghostwriter will take care of the rest. It's quite neat.
 
 Download
 --------
@@ -20,32 +20,36 @@ $ grunt
 
 This will build ghostwriter.js and ghostwriter.min.js.
 
+Vocab
+-----
+
+Quick overview of some Ghostwriter vocab.
+
+* **haunt** *(verb)* - to programmatically interact with.
+* **stroke** *(noun)* - action that is taken upon a haunted element.
+* **manuscript** *(noun)*  - ordered collection of strokes that make up a haunting.
+
 Usage
 -----
 
 ### Options
 
-#### loop
+The available options that can be passed to `ghostwriter#haunt`.
 
-If `loop` is a truthy value, when a haunting ends, it will automatically start up again. Defaults to `false`.
+* `loop` - If truthy, when a haunting ends, it will automatically start up again from the beginning. Defaults to `false`.
 
-#### input
+* `interval` - The number of milliseconds between the execution of strokes. Defaults to `300`.
 
-The input or textarea element to haunt. Can be a CSS selector, DOM element, or a jQuery-wrapped DOM element. This is a **required** option.
+* `input` - A single `input[type="text"]` or `textarea` element to haunt. Can be a CSS selector, DOM element, or a jQuery-wrapped DOM element. This is a **required** option.
 
-#### interval
 
-The number of milliseconds between strokes. Defaults to `300`.
-
-#### manuscript
-
-The collection of strokes the ghost will execute. If you are using non-character strokes, `manuscript` should be an array of strokes. If you are only using character strokes though, a string is acceptable. This is a **required** option.
+* `manuscript` - The ordered collection of strokes that will be executed throughout a haunting. If you are using non-character strokes, `manuscript` should be an array of strokes. If you are only using character strokes though, a string is acceptable. More details about strokes can be found in the [Strokes section][strokes]. This is a **required** option.
 
 ### API
 
 #### ghostwriter.haunt(options)
 
-Returns a Ghost instance. `options` is expect to be an options hash, an overview of the available options can be found [here][options].
+Returns a Ghost instance. `options` is expected to be an options object, an overview of the available options can be found in the [Options section][options].
 
 ```javascript
 var ghost = ghostwriter.haunt({
@@ -60,7 +64,7 @@ Starts/resumes the haunting of the input. Can be paused by calling `Ghost#pause`
 
 #### Ghost#pause()
 
-Pauses the haunting of the input. Can be resumed by calling `Ghost#start`.
+Pauses the haunting of  the input. Can be resumed by calling `Ghost#start`.
 
 #### Ghost#stop()
 
@@ -70,55 +74,98 @@ Stops and resets the haunting of the input. The original value of the input will
 
 Equivalent to calling `Ghost#stop` and then `Ghost#start`.
 
-### Strokes
+#### Ghost#reset()
 
-The way you describe hauntings to Ghostwriter is through strokes. There are character strokes and non-character strokes. When a stroke is executed, it'll update the DOM accordingly and trigger the corresponding DOM events. 
+Restores the original value of the input. Only useful for cleanup after a haunting finishes.
 
-Character strokes represent one character that will be entered into the input. Strings are automatically decomposed into character strokes, so for the most part, you don't need to know much about character strokes.
+### Custom jQuery Events
 
-Non-character strokes is where the fun begins. Non-character strokes represent actions like pressing the left arrow key or selecting all the text on the input. Below is a comprehensive lists of the available non-character strokes.
+Ghosts trigger a variety of jQuery events on their input during the life-cycle of a haunting.
 
-* `ghostwriter.backspace`
-* `ghostwriter.left`
-* `ghostwriter.right`
+* `ghostwriter:start` - Triggered when a haunting is started from the beginning.
+
+* `ghostwriter:resume` - Triggered when a haunting is resumed after being paused.
+
+* `ghostwriter:pause` - Triggered when a haunting is paused.
+
+* `ghostwriter:stop` - Triggered when a haunting is stopped.
+
+* `ghostwriter:finish` - Triggered when a haunting finishes.
+
+Strokes
+-------
+
+Ghosts rely on manuscripts to determine how they should haunt inputs. Manuscripts are composed of an ordered collection of strokes. There are many different types of strokes and each type has its own definition which details what should happen when it's executed. Stroke definitions are maintained in [src/stroke_definitions.js][stroke_definitions].
+
+### Available Strokes
+
+Strokes that don't take any arguments don't need to be invoked before they are added to a manuscript. Along with the actions listed in their description, each stroke should trigger the expected DOM events when they are executed unless otherwise noted.
+
+* `ghostwriter.character(char)` - Enters `char` into the input at the current cursor position.
+* `ghostwriter.backspace` - Moves the cursor one position backwards and deletes the character at that position.
+* `ghostwriter.left` - Moves the cursor one position backwards.
+* `ghostwriter.right` - Moves the cursor one position forward.
 * `ghostwriter.up`
 * `ghostwriter.down`
 * `ghostwriter.enter`
 * `ghostwriter.tab`
 * `ghostwriter.esc`
-* `ghostwriter.selectAll`
-* `ghostwriter.deleteAll`
+* `ghostwriter.selectAll` - Selects all of the text in the input. Does not trigger any DOM events.
+* `ghostwriter.deleteAll` - Deletes all of the text in the input.
+* `ghostwriter.trigger(eventType)` - Triggers `eventType` jQuery event on the input.
 * `ghostwriter.noop`
 
-If you'd like to repeat a non-character stroke, rather then doing something like:
+### Repeating Strokes
+
+Strokes have a convenience method attached to them to make repeating them dead simple. The following examples are equivalent.
 
 ```javascript
-var ghost = ghostwriter.haunt({
-  input: '.haunt-me'
-, maunscript: [
-    'backspace'
-  , ghostwriter.backspace
-  , ghostwriter.backspace
-  , ghostwriter.backspace
-  , ghostwriter.backspace
-  , ghostwriter.backspace
-  , ghostwriter.backspace
+var bad = ghostwriter.haunt({
+  input: '.i-am-an-input'
+, manuscript: [
+    ghostwriter.character('z')
+  , ghostwriter.character('z')
+  , ghostwriter.character('z')
   , ghostwriter.backspace
   , ghostwriter.backspace
   , ghostwriter.backspace
   ]
 });
+
+var good = ghostwriter.haunt({
+  input: '.i-am-an-input'
+, manuscript: [
+    ghostwriter.character('z').repeat(3)
+  , ghostwriter.backspace.repeat(3)
+  ]
+});
 ```
 
-You can do something like this and save yourself some typing:
+### Character Strokes the Easy Way
+
+If a string is found in a manuscript, Ghostwriter will split the string and turn each character into a character stroke. The following examples are equivalent.
 
 ```javascript
-var ghost = ghostwriter.haunt({
-  input: '.haunt-me'
-, maunscript: [
-    'backspace'
-  , ghostwriter.backspace(9)
+var bad = ghostwriter.haunt({
+  input: '.i-am-an-input'
+, manuscript: [
+    ghostwriter.character('c')
+  , ghostwriter.character('a')
+  , ghostwriter.character('s')
+  , ghostwriter.character('p')
+  , ghostwriter.character('e')
+  , ghostwriter.character('r')
   ]
+});
+
+var good = ghostwriter.haunt({
+  input: '.i-am-an-input'
+, manuscript: ['casper']
+});
+
+var alsoGood = ghostwriter.haunt({
+  input: '.i-am-an-input'
+, manuscript: 'casper'
 });
 ```
 
@@ -126,9 +173,10 @@ Example
 -------
 
 ```html
+<!DOCTYPE html>
 <html>
   <head>
-    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="https://raw.github.com/jharding/ghostwriter/master/ghostwriter.js"></script>
   </head>
   <body>
@@ -139,8 +187,9 @@ Example
         input: '.haunt-me'
       , manuscript: [
           'boo!'
-        , ghostwriter.backspace(4)
+        , ghostwriter.backspace.repeat(4)
         , 'sorry if i startled you'
+        , ghostwriter.selectAll
         , ghostwriter.deleteAll
         , 'i am actually quite friendly'
         ]
@@ -185,4 +234,6 @@ License
 Copyright (c) 2013 [Jake Harding](http://thejakeharding.com)  
 Licensed under the MIT License.
 
+[strokes]: https://github.com/jharding/ghostwriter#strokes
 [options]: https://github.com/jharding/ghostwriter#options
+[stroke_definitions]: https://github.com/jharding/ghostwriter/blob/master/src/stroke_definitions.js
