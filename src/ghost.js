@@ -51,8 +51,8 @@ var Ghost = (function() {
         clearInterval(this.intervalId);
         this.story = [];
         this.intervalId =  null;
+        this.reset();
         this.$input.blur();
-        this.$input.val(this.originalInputVal);
       }
 
       return this;
@@ -63,6 +63,10 @@ var Ghost = (function() {
       this.start();
 
       return this;
+    }
+
+  , reset: function() {
+      this.$input.val(this.originalInputVal);
     }
   });
 
@@ -102,8 +106,10 @@ var Ghost = (function() {
       (utils.isFunction(next) ? next() : next).exec(this.$input, o);
     }
 
+    // all done!
     else {
-      this.loop ? this.restart() : this.pause();
+      this.$input.trigger('ghostwriter:finish');
+      this.loop ? this.restart() : this.reset();
     }
   }
 
