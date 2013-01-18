@@ -219,7 +219,7 @@ Developers
 
 If you plan on contributing to Ghostwriter, be sure to read the [contributing guidelines][contributing-guidelines]. 
 
-In order to build and test Ghostwriter, you'll need to install Ghostwriter's devDependencies (`$ npm install`) and have the [grunt-cli][grunt-cli] installed. Below is an overview of Ghostwriter's Grunt tasks that'll be useful in development.
+In order to build and test Ghostwriter, you'll need to install Ghostwriter's devDependencies (`$ npm install`) and have [grunt-cli][grunt-cli] installed. Below is an overview of Ghostwriter's Grunt tasks that'll be useful in development.
 
 * `grunt build` - Builds *ghostwriter.js* from source files.
 * `grunt lint` - Runs source and test files through JSHint.
@@ -251,5 +251,5 @@ Licensed under the MIT License.
 [strokes]: https://github.com/jharding/ghostwriter#strokes
 [options]: https://github.com/jharding/ghostwriter#options
 [stroke_definitions]: https://github.com/jharding/ghostwriter/blob/master/src/stroke_definitions.js
-[contributing-guidelines]: https://github.com/jharding/ghostwriter/blob/master/RCONTRIBUTING.md
+[contributing-guidelines]: https://github.com/jharding/ghostwriter/blob/master/CONTRIBUTING.md
 [grunt-cli]: https://github.com/gruntjs/grunt-cli
