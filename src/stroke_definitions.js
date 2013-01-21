@@ -4,8 +4,8 @@ stroke.definitions = {
     .trigger(utils.getKeyEvent('keydown', char))
     .trigger(utils.getKeyEvent('keypress', char))
     .trigger(utils.getKeyEvent('textInput', char))
-    .trigger(utils.getKeyEvent('keyup', char))
     .val(o.val.beforeCursor + char + o.val.afterCursor)
+    .trigger(utils.getKeyEvent('keyup', char))
     .trigger(utils.getKeyEvent('input', char));
 
     utils.setCursorPos(this, o.cursorPos + 1);
