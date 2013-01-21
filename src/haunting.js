@@ -7,7 +7,7 @@ var Haunting = (function() {
     this.intervalId = null;
     this.interval = o.interval || 300;
 
-    this.$input = $(o.input);
+    this.$input = $(o.input).first();
     this.originalInputVal = this.$input.val();
 
     this.story = [];
