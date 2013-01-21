@@ -50,6 +50,43 @@ describe('Haunting', function() {
       expect(resumeSpy).not.toHaveBeenTriggered();
       expect(startSpy).not.toHaveBeenTriggered();
     });
+
+    describe('stroke execution', function() {
+      beforeEach(function() {
+        this.strokeSpy = jasmine.createSpy();
+
+        this.haunting = new Haunting({
+          input: this.$input.val('original value')
+        , interval: 50
+        , manuscript: [stroke.factory(this.strokeSpy).repeat(3)]
+        });
+
+      });
+
+      it('should execute each stroke once', function() {
+        this.haunting.start();
+        waits(300);
+        runs(function() { expect(this.strokeSpy.callCount).toBe(3); });
+      });
+
+      it('should trigger ghostwriter:finish when the haunting finishes'
+      , function() {
+        var finishSpy = spyOnEvent(this.$input, 'ghostwriter:finish');
+
+        this.haunting.start();
+        waits(300);
+        runs(function() { expect(finishSpy).toHaveBeenTriggered(); });
+      });
+
+      it('should not trigger ghostwriter:stop when the haunting finishes'
+      , function() {
+        var stopSpy = spyOnEvent(this.$input, 'ghostwriter:stop');
+
+        this.haunting.start();
+        waits(300);
+        runs(function() { expect(stopSpy).not.toHaveBeenTriggered(); });
+      });
+    });
   });
 
   describe('#pause', function() {
