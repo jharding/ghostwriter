@@ -48,8 +48,25 @@ var utils = (function() {
   , getKeyEvent: function(type, key) {
       var event = $.Event(type);
 
-      event.which = event.keyCode = utils.isString(key) ?
-        key.charCodeAt(0) : key;
+      if (type === 'keypress') {
+        event.which =
+        event.keyCode =
+        event.charCode = utils.isString(key) ? key.charCodeAt(0) : key;
+      }
+
+      else if (type === 'keydown' || type === 'keyup') {
+        event.charCode = 0;
+        event.which = event.charCode = utils.isString(key) ?
+          key.toUpperCase().charCodeAt(0) : key;
+      }
+
+      else if (type === 'textInput') {
+        if (!utils.isString(key)) {
+          throw new TypeError('non-string passed for textInput');
+        }
+
+        event.data = key;
+      }
 
       return event;
     }
