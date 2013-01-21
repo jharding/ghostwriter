@@ -42,5 +42,5 @@ var stroke = (function() {
     return Stroke;
   }
 
-  return { builder: strokeBuilder };
+  return { builder: strokeBuilder, factory: strokeFactory };
 })();

@@ -92,7 +92,7 @@ var Ghost = (function() {
   function write() {
     var next = this.story.shift()
       , inputVal = this.$input.val()
-      , cursorPos = utils.getCursorPos(this.$input) || 0
+      , cursorPos = utils.getCursorPos(this.$input)
       , o = {
           cursorPos: cursorPos
         , val: {

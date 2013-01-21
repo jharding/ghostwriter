@@ -10,6 +10,10 @@ var utils = (function() {
       return typeof obj === 'string';
     }
 
+  , isNumber: function(obj) {
+      return typeof obj === 'number';
+    }
+
   , isFunction: function(obj) {
       return $.isFunction(obj);
     }
@@ -53,7 +57,7 @@ var utils = (function() {
   , getCursorPos: function($input) {
       var selectionStart = $input[0].selectionStart;
 
-      if (selectionStart) {
+      if (utils.isNumber(selectionStart)) {
        return selectionStart;
       }
 
