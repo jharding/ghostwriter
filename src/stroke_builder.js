@@ -3,7 +3,7 @@ var stroke = (function() {
     var strokes = {};
 
     utils.each(stroke.definitions, function(key, definition) {
-      strokes[key] = strokeFactory(definition);
+      strokes[key] = strokeFactory(definition, key);
     });
 
     return strokes;
