@@ -2,5 +2,5 @@
 // -------
 
 utils.mixin(exports, stroke.builder(), {
-  haunt: function(o) { return new Haunting(o); }
+  haunt: function(o) { return new Haunt(o); }
 });
