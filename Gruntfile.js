@@ -1,18 +1,18 @@
 var jsFiles = [
-  'src/utils.js'
-, 'src/stroke_builder.js'
-, 'src/stroke_definitions.js'
-, 'src/ghost.js'
-, 'src/exports.js'
-];
+      'src/utils.js'
+    , 'src/stroke_builder.js'
+    , 'src/stroke_definitions.js'
+    , 'src/ghost.js'
+    ]
+, jsFilesWithExports = jsFiles.concat('src/exports.js');
 
 module.exports = function(grunt) {
   grunt.initConfig({
     watch: {
       js: { files: 'src/**/*.js', tasks: 'uglify:ghostwriter' }
-    },
+    }
 
-    uglify: {
+  , uglify: {
       options: {
         wrap: 'ghostwriter'
       , banner: [
@@ -25,15 +25,15 @@ module.exports = function(grunt) {
       }
     , ghostwriter: {
         options: { mangle: false, beautify: true, compress: false }
-      , files: { 'ghostwriter.js': jsFiles }
+      , files: { 'ghostwriter.js': jsFilesWithExports }
       }
     , ghostwriter_min: {
         options: { mangle: true, compress: true }
-      , files: { 'ghostwriter.min.js': jsFiles }
+      , files: { 'ghostwriter.min.js': jsFilesWithExports }
       }
-    },
+    }
 
-    jshint: {
+  , jshint: {
       options: {
       // enforcing options
         bitwise: true
@@ -59,12 +59,34 @@ module.exports = function(grunt) {
     , gruntfile: ['Gruntfile.js']
     , ghostwriter: ['src/**/*.js']
     }
+
+  , exec: {
+      open_spec_runner: { cmd: 'open _SpecRunner.html' }
+    }
+
+  , jasmine: {
+      ghostwriter: {
+        src: jsFiles
+      , options: {
+          specs: 'test/*_spec.js'
+        , helpers: 'test/helpers/*'
+        , vendor: 'test/vendor/*'
+        }
+      }
+    }
   });
 
+  grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
 
-  grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('lint', ['jshint']);
+  grunt.registerTask('test', ['jasmine']);
+  grunt.registerTask('test:browser', [
+    'jasmine:ghostwriter:build'
+  , 'exec:open_spec_runner'
+  ]);
 };
