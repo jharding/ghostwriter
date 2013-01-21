@@ -3,31 +3,13 @@
 Ghostwriter
 ===========
 
-Ghostwriter is a JavaScript library that provides a simple API for programmatically interacting with `input[type="text"]` and `textarea` elements. Give Ghostwriter the element you'd like to interact with along with a set of instructions that detail the interaction and Ghostwriter will take care of the rest. It's quite neat.
+Ghostwriter is a JavaScript library that provides a simple API for programmatically interacting with `input[type="text"]` elements. Give Ghostwriter the element you'd like to interact with along with a set of instructions that detail the interaction and Ghostwriter will take care of the rest. It's quite neat.
 
 Download
 --------
 
-Ghostwriter hasn't been released yet. If you'd like to get a copy of the bleeding-edge version, do the following:
-
-```
-$ git clone git://github.com/jharding/ghostwriter.git
-$ cd ghostwriter
-$ npm install
-$ npm install -g grunt-cli
-$ grunt
-```
-
-This will build *ghostwriter.js* and *ghostwriter.min.js* in the root of the repo.
-
-Vocab
------
-
-Quick overview of some Ghostwriter vocab.
-
-* **haunt** *(verb)* - to programmatically interact with.
-* **stroke** *(noun)* - action that is taken upon a haunted element.
-* **manuscript** *(noun)*  - ordered collection of strokes that make up a haunting.
+* **Development (0.1.0)** - [ghostwriter.js][ghostwriter.js] 
+* **Production (0.1.0)** - [ghostwriter.min.js][ghostwriter.min.js] *~1.6KB, compressed and gzipped*
 
 Usage
 -----
@@ -36,84 +18,85 @@ Usage
 
 The available options that can be passed to `ghostwriter#haunt`.
 
-* `loop` - If truthy, when a haunting ends, it will automatically start up again from the beginning. Defaults to `false`.
+* `loop` - If truthy, when a haunt finishes, it will automatically start up again from the beginning. Defaults to `false`.
 
 * `interval` - The number of milliseconds between the execution of strokes. Defaults to `300`.
 
-* `input` - A single `input[type="text"]` or `textarea` element to haunt. Can be a CSS selector, DOM element, or a jQuery-wrapped DOM element. This is a **required** option.
+* `input` - The `input[type="text"]` element to haunt. Can be a CSS selector, DOM element, or a jQuery-wrapped DOM element. **Required**.
 
 
-* `manuscript` - The ordered collection of strokes that will be executed throughout a haunting. If you are using non-character strokes, `manuscript` should be an array of strokes. If you are only using character strokes though, a string is acceptable. More details about strokes can be found in the [Strokes section][strokes]. This is a **required** option.
+* `manuscript` - The ordered collection of strokes that will be executed during a haunt. If you are using non-character strokes, `manuscript` should be an array of strokes. If you are only using character strokes though, a string is acceptable. More details about strokes can be found in the [strokes section][strokes]. **Required**.
 
 ### API
 
 #### ghostwriter.haunt(options)
 
-Returns a Ghost instance. `options` is expected to be an options object, an overview of the available options can be found in the [Options section][options].
+Returns a Haunt instance. `options` is expected to be an options object (ahem, [omnihash][omnihash]), an overview of the available options can be found in the [options section][options].
 
 ```javascript
-var ghost = ghostwriter.haunt({
+var haunt = ghostwriter.haunt({
   input: '.haunted-input'
 , manuscript: 'i am haunted'
 });
 ```
 
-#### Ghost#start()
+#### Haunt#start()
 
-Starts/resumes the haunting of the input. Can be paused by calling `Ghost#pause`
+Starts/resumes the haunt. Can be paused by calling `Haunt#pause`
 
-#### Ghost#pause()
+#### Haunt#pause()
 
-Pauses the haunting of  the input. Can be resumed by calling `Ghost#start`.
+Pauses the haunt. Can be resumed by calling `Haunt#start`.
 
-#### Ghost#stop()
+#### Haunt#stop()
 
-Stops and resets the haunting of the input. The original value of the input will be restored.
+Stops the haunt, resets the haunt, and blurs the input. The original value of the input will be restored.
 
-#### Ghost#restart()
+#### Haunt#restart()
 
-Equivalent to calling `Ghost#stop` and then `Ghost#start`.
+Equivalent to calling `Haunt#stop` and then `Haunt#start`.
 
-#### Ghost#reset()
+#### Haunt#reset()
 
-Restores the original value of the input. Only useful for cleanup after a haunting finishes.
+Restores the original value of the input. Only useful for cleanup after a haunt finishes.
 
 ### Custom jQuery Events
 
-Ghosts trigger a variety of jQuery events on their input during the life-cycle of a haunting.
+During the life-cycle of a haunt, a number of jQuery events are triggered on the haunted input.
 
-* `ghostwriter:start` - Triggered when a haunting is started from the beginning.
+* `ghostwriter:start` - Triggered when the haunt starts.
 
-* `ghostwriter:resume` - Triggered when a haunting is resumed after being paused.
+* `ghostwriter:resume` - Triggered when the haunt resumes after being paused.
 
-* `ghostwriter:pause` - Triggered when a haunting is paused.
+* `ghostwriter:pause` - Triggered when the haunt pauses.
 
-* `ghostwriter:stop` - Triggered when a haunting is stopped.
+* `ghostwriter:stop` - Triggered when the haunt stops.
 
-* `ghostwriter:finish` - Triggered when a haunting finishes.
+* `ghostwriter:finish` - Triggered when the haunt finishes.
 
 Strokes
 -------
 
-Ghosts rely on manuscripts to determine how they should haunt inputs. Manuscripts are composed of an ordered collection of strokes. There are many different types of strokes and each type has its own definition which details what should happen when it's executed. Stroke definitions are maintained in [src/stroke_definitions.js][stroke_definitions].
+Haunts rely on manuscripts to determine how they should interact with inputs. Manuscripts are an ordered collection of strokes. There are many different types of strokes and each type has its own definition which details what should happen when it's executed. Stroke definitions are maintained in [src/stroke_definitions.js][stroke_definitions].
 
 ### Available Strokes
 
 Strokes that don't take any arguments don't need to be invoked before they are added to a manuscript. Along with the actions listed in their description, each stroke should trigger the expected DOM events when they are executed unless otherwise noted.
 
-* `ghostwriter.character(char)` - Enters `char` into the input at the current cursor position.
-* `ghostwriter.backspace` - Moves the cursor one position backwards and deletes the character at that position.
-* `ghostwriter.left` - Moves the cursor one position backwards.
-* `ghostwriter.right` - Moves the cursor one position forward.
+* `ghostwriter.character(char)` - If no text is selected, enters `char` into the input at the current cursor position. If text is selected, replaces the selected text with `char`.
+* `ghostwriter.backspace` - If no text is selected, moves the cursor one position backward and deletes the character at that position. If text is selected, removes the selected text.
+* `ghostwriter.left` - If no text is selected, moves the cursor one position left. If text is selected, moves the cursor to the left end of the selected text and deselects the text.
+* `ghostwriter.right` - If no text is selected, moves the cursor one position right. If text is selected, moves the cursor to the right end of the selected text and deselects the text.
 * `ghostwriter.up`
 * `ghostwriter.down`
 * `ghostwriter.enter`
 * `ghostwriter.tab`
 * `ghostwriter.esc`
+* `ghostwriter.selectLeft` - Extends selection one character to the left. Does not trigger any DOM events.
+* `ghostwriter.selectRight` - Extends selection one character to the right. Does not trigger any DOM events.
 * `ghostwriter.selectAll` - Selects all of the text in the input. Does not trigger any DOM events.
-* `ghostwriter.deleteSelection` - Deletes the selected text within the input.
 * `ghostwriter.trigger(eventType)` - Triggers `eventType` jQuery event on the input.
-* `ghostwriter.noop`
+* `ghostwriter.noop` - Does nothing.
 
 ### Repeating Strokes
 
@@ -190,7 +173,7 @@ Example
         , ghostwriter.backspace.repeat(4)
         , 'sorry if i startled you'
         , ghostwriter.selectAll
-        , ghostwriter.deleteSelection
+        , ghostwriter.backspace
         , 'i am actually quite friendly'
         ]
       });
@@ -204,7 +187,7 @@ Example
 Testing
 -------
 
-Haven't gotten around to writing a test suite yet :(
+Tests are written using [Jasmine][jasmine]. To run Ghostwriter's test suite with PhantomJS, run `npm test`.
 
 Issues
 ------
@@ -212,7 +195,6 @@ Issues
 Found a bug? Create an issue on GitHub.
 
 https://github.com/jharding/ghostwriter/issues
-
 
 Developers
 ----------
@@ -248,8 +230,12 @@ License
 Copyright (c) 2013 [Jake Harding](http://thejakeharding.com)  
 Licensed under the MIT License.
 
+[ghostwriter.js]: https://github.com/jharding/ghostwriter/blob/master/ghostwriter.js
+[ghostwriter.min.js]: https://github.com/jharding/ghostwriter/blob/master/ghostwriter.min.js
 [strokes]: https://github.com/jharding/ghostwriter#strokes
+[omnihash]: https://twitter.com/JakeHarding/status/292165937250041857
 [options]: https://github.com/jharding/ghostwriter#options
 [stroke_definitions]: https://github.com/jharding/ghostwriter/blob/master/src/stroke_definitions.js
+[jasmine]: http://pivotal.github.com/jasmine/
 [contributing-guidelines]: https://github.com/jharding/ghostwriter/blob/master/CONTRIBUTING.md
 [grunt-cli]: https://github.com/gruntjs/grunt-cli
