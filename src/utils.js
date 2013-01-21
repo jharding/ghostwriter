@@ -71,7 +71,7 @@ var utils = (function() {
       return event;
     }
 
-  , getSelectionRange: function($input) {
+  , getSelection: function($input) {
       var selectionStart = $input[0].selectionStart
         , selectionEnd = $input[0].selectionEnd;
 
@@ -83,9 +83,23 @@ var utils = (function() {
       // http://stackoverflow.com/questions/3053542
     }
 
-  , setSelectionRange: function($input) {
-      // TODO: implement
+  , setSelection: function($input, start, end) {
+      var input = $input[0]
+        , textRange;
+
+      if (input.setSelectionRange) {
+        input.setSelectionRange(start, end);
+      }
+
+      // TODO: support carriage returns
       // http://stackoverflow.com/questions/8928660
+      else if (input.createTextRange) {
+        textRange = input.createTextRange();
+        textRange.collapse(true);
+        textRange.moveEnd(start);
+        textRange.moveStart(end);
+        textRange.select();
+      }
     }
 
   , getCursorPos: function($input) {
@@ -106,20 +120,7 @@ var utils = (function() {
     }
 
   , setCursorPos: function($input, pos) {
-      var input = $input[0]
-        , textRange;
-
-      if (input.setSelectionRange) {
-        input.setSelectionRange(pos, pos);
-      }
-
-      else if (input.createTextRange) {
-        textRange = input.createTextRange();
-        textRange.collapse(true);
-        textRange.moveEnd(pos);
-        textRange.moveStart(pos);
-        textRange.select();
-      }
+      utils.setSelection($input, pos, pos);
     }
   };
 })();
