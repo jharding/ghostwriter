@@ -2,7 +2,7 @@ var jsFiles = [
       'src/utils.js'
     , 'src/stroke_builder.js'
     , 'src/stroke_definitions.js'
-    , 'src/ghost.js'
+    , 'src/haunting.js'
     ]
 , jsFilesWithExports = jsFiles.concat('src/exports.js');
 

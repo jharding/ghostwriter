@@ -1,8 +1,8 @@
-var Ghost = (function() {
+var Haunting = (function() {
   // constructor
   // -----------
 
-  function Ghost(o) {
+  function Haunting(o) {
     this.loop = !!o.loop;
     this.intervalId = null;
     this.interval = o.interval || 300;
@@ -17,7 +17,7 @@ var Ghost = (function() {
   // public methods
   // --------------
 
-  utils.mixin(Ghost.prototype, {
+  utils.mixin(Haunting.prototype, {
     start: function() {
       var eventType;
 
@@ -114,5 +114,5 @@ var Ghost = (function() {
     }
   }
 
-  return Ghost;
+  return Haunting;
 })();
