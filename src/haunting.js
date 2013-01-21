@@ -18,23 +18,23 @@ var Haunting = (function() {
   // --------------
 
   utils.mixin(Haunting.prototype, {
-    start: function() {
+    start: function(silent) {
       var eventType;
 
       if (!this.intervalId) {
         eventType = this.story.length ? 'resume' : 'start';
         this.story = this.story.length ? this.story : this.manuscript.slice(0);
 
-        this.$input.trigger('ghostwriter:' + eventType).focus();
+        !silent && this.$input.trigger('ghostwriter:' + eventType).focus();
         this.intervalId = setInterval(utils.bind(write, this), this.interval);
       }
 
       return this;
     }
 
-  , pause: function() {
+  , pause: function(silent) {
       if (this.intervalId) {
-        this.$input.trigger('ghostwriter:pause');
+        !silent && this.$input.trigger('ghostwriter:pause');
 
         clearInterval(this.intervalId);
         this.intervalId =  null;
@@ -43,9 +43,9 @@ var Haunting = (function() {
       return this;
     }
 
-  , stop: function() {
+  , stop: function(silent) {
       if (this.intervalId || this.story.length) {
-        this.$input.trigger('ghostwriter:stop');
+        !silent && this.$input.trigger('ghostwriter:stop');
       }
 
       if (this.intervalId) {
@@ -112,7 +112,7 @@ var Haunting = (function() {
     // all done!
     else {
       this.$input.trigger('ghostwriter:finish');
-      this.loop ? this.restart() : this.reset();
+      this.loop ? this.restart() : this.stop(true);
     }
   }
 
