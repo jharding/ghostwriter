@@ -95,6 +95,7 @@ var Ghost = (function() {
       , cursorPos = utils.getCursorPos(this.$input)
       , o = {
           cursorPos: cursorPos
+        , selection: utils.getSelectionRange(this.$input)
         , val: {
             all: inputVal
           , beforeCursor: inputVal.substr(0, cursorPos)

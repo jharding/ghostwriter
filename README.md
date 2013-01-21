@@ -111,7 +111,7 @@ Strokes that don't take any arguments don't need to be invoked before they are a
 * `ghostwriter.tab`
 * `ghostwriter.esc`
 * `ghostwriter.selectAll` - Selects all of the text in the input. Does not trigger any DOM events.
-* `ghostwriter.deleteAll` - Deletes all of the text in the input.
+* `ghostwriter.deleteSelection` - Deletes the selected text within the input.
 * `ghostwriter.trigger(eventType)` - Triggers `eventType` jQuery event on the input.
 * `ghostwriter.noop`
 
@@ -190,7 +190,7 @@ Example
         , ghostwriter.backspace.repeat(4)
         , 'sorry if i startled you'
         , ghostwriter.selectAll
-        , ghostwriter.deleteAll
+        , ghostwriter.deleteSelection
         , 'i am actually quite friendly'
         ]
       });

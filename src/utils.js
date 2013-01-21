@@ -71,6 +71,23 @@ var utils = (function() {
       return event;
     }
 
+  , getSelectionRange: function($input) {
+      var selectionStart = $input[0].selectionStart
+        , selectionEnd = $input[0].selectionEnd;
+
+      if (utils.isNumber(selectionStart) && utils.isNumber(selectionEnd)) {
+        return { start: selectionStart, end: selectionEnd };
+      }
+
+      // TODO: fallback solution for IE
+      // http://stackoverflow.com/questions/3053542
+    }
+
+  , setSelectionRange: function($input) {
+      // TODO: implement
+      // http://stackoverflow.com/questions/8928660
+    }
+
   , getCursorPos: function($input) {
       var selectionStart = $input[0].selectionStart;
 
@@ -82,7 +99,7 @@ var utils = (function() {
         $input.focus();
 
         var range = document.selection.createRange();
-        range.moveStart('character', -valueLength);
+        range.moveStart('character', -$input.val().length);
 
         return range.text.length;
       }
@@ -92,16 +109,16 @@ var utils = (function() {
       var input = $input[0]
         , textRange;
 
-      if (input.createTextRange) {
+      if (input.setSelectionRange) {
+        input.setSelectionRange(pos, pos);
+      }
+
+      else if (input.createTextRange) {
         textRange = input.createTextRange();
         textRange.collapse(true);
         textRange.moveEnd(pos);
         textRange.moveStart(pos);
         textRange.select();
-      }
-
-      else if (input.setSelectionRange) {
-        input.setSelectionRange(pos, pos);
       }
     }
   };

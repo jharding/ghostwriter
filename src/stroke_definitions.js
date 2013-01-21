@@ -1,10 +1,12 @@
 stroke.definitions = {
   character: function(o, char) {
+    var newVal = o.val.beforeCursor + char + o.val.afterCursor;
+
     this
     .trigger(utils.getKeyEvent('keydown', char))
     .trigger(utils.getKeyEvent('keypress', char))
     .trigger(utils.getKeyEvent('textInput', char))
-    .val(o.val.beforeCursor + char + o.val.afterCursor)
+    .val(newVal)
     .trigger(utils.getKeyEvent('keyup', char))
     .trigger(utils.getKeyEvent('input', char));
 
@@ -13,11 +15,12 @@ stroke.definitions = {
 
 , backspace: function(o) {
     var keyCode = 8
+      , newVal = o.val.beforeCursor.slice(0, -1) + o.val.afterCursor
       , newCursorPos = o.cursorPos === 0 ? 0 : o.cursorPos - 1;
 
     this
     .trigger(utils.getKeyEvent('keydown', keyCode))
-    .val(o.val.beforeCursor.slice(0, -1) + o.val.afterCursor)
+    .val(newVal)
     .trigger(utils.getKeyEvent('keyup', keyCode));
 
     if (this.val() !== o.val.all) {
@@ -46,48 +49,56 @@ stroke.definitions = {
 , up: function(o) {
     var keyCode = 38;
 
-    this.trigger(utils.getKeyEvent('keydown', keyCode));
-    this.trigger(utils.getKeyEvent('keyup', keyCode));
+    this
+    .trigger(utils.getKeyEvent('keydown', keyCode))
+    .trigger(utils.getKeyEvent('keyup', keyCode));
   }
 
 , down: function(o) {
     var keyCode = 40;
 
-    this.trigger(utils.getKeyEvent('keydown', keyCode));
-    this.trigger(utils.getKeyEvent('keyup', keyCode));
+    this
+    .trigger(utils.getKeyEvent('keydown', keyCode))
+    .trigger(utils.getKeyEvent('keyup', keyCode));
   }
 
 , enter: function(o) {
     var keyCode = 13;
 
-    this.trigger(utils.getKeyEvent('keydown', keyCode));
-    this.trigger(utils.getKeyEvent('keyup', keyCode));
+    this
+    .trigger(utils.getKeyEvent('keydown', keyCode))
+    .trigger(utils.getKeyEvent('keyup', keyCode));
   }
 
 , tab: function(o) {
     var keyCode = 9;
 
-    this.trigger(utils.getKeyEvent('keydown', keyCode));
-    this.trigger(utils.getKeyEvent('keyup', keyCode));
+    this
+    .trigger(utils.getKeyEvent('keydown', keyCode))
+    .trigger(utils.getKeyEvent('keyup', keyCode));
   }
 
 , esc: function(o) {
     var keyCode = 27;
 
-    this.trigger(utils.getKeyEvent('keydown', keyCode));
-    this.trigger(utils.getKeyEvent('keyup', keyCode));
+    this
+    .trigger(utils.getKeyEvent('keydown', keyCode))
+    .trigger(utils.getKeyEvent('keyup', keyCode));
   }
 
 , selectAll: function(o) {
+    // TODO: need to trigger corresponding keyboard events
     this.select();
   }
 
-, deleteAll: function(o) {
-    var keyCode = 8;
+, deleteSelection: function(o) {
+    var keyCode = 8
+      , newVal = o.val.all.slice(0, o.selection.start) +
+        o.val.all.slice(o.selection.end);
 
     this
     .trigger(utils.getKeyEvent('keydown', keyCode))
-    .val('')
+    .val(newVal)
     .trigger(utils.getKeyEvent('keyup', keyCode));
 
     if (this.val() !== o.val.all) {
