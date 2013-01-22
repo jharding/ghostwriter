@@ -1,0 +1,150 @@
+@font-face {
+  font-family: 'ParmaPetit';
+  src: url('ParmaPetit-Normal.ttf');
+}
+
+@media all and (max-width: 600px) {
+  .gh-ribbon {
+    display: none;
+  }
+}
+
+html, body {
+  height: 100%;
+  background: #262626;
+  font-family: 'ParmaPetit';
+}
+
+.sticky-footer-wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -50px;
+}
+
+.sticky-footer-push,
+.footer {
+  height: 50px;
+}
+
+.container {
+  width: 400px;
+  margin: 30px auto 100px auto;
+  text-align: center;
+}
+
+h1 a {
+  margin: 0;
+  font-size: 64px;
+  line-height: 80px;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 1px 1px 1px rgba(255,255,255,.15);
+}
+
+.ghost {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.ghost.rotate {
+  -webkit-transform: rotateY(360deg);
+     -moz-transform: rotateY(360deg);
+      -ms-transform: rotateY(360deg);
+       -o-transform: rotateY(360deg);
+          transform: rotateY(360deg);
+  -webkit-transition: 2s all ease;
+     -moz-transition: 2s all ease;
+       -o-transition: 2s all ease;
+          transition: 2s all ease;
+}
+
+.ghost-head {
+  height: 300px;
+  text-align: center;
+  background: #fff;
+  border-radius: 150px 150px 0 0;
+}
+
+.ghost-eye {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin: 60px 15px 0 15px;
+  background: rgba(0,0,0,.95);
+  border-radius: 25px;
+}
+
+.ghost-feet {
+  font-size: 0; /* deals with whitespace for display: inline; */
+}
+
+[class^="ghost-foot"] {
+  display: inline-block;
+  border-top: 30px solid #fff;
+}
+
+.ghost-foot-first {
+  border-right: 30px solid transparent;
+}
+
+.ghost-foot-last {
+  border-left: 30px solid transparent;
+}
+
+.ghost-foot-middle {
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+}
+
+.haunted {
+  width: 100%;
+  height: 50px;
+  margin: 50px 0 25px 0;
+  font-size: 40px;
+  line-height: 50px;
+  color: #fff;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(255,255,255,.15);
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+a.btn {
+  display: block;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 30px;
+  line-height: 60px;
+  color: #000;
+  text-decoration: none;
+  text-shadow: 1px 1px 1px rgba(0,0,0,.15);
+  background: #fff;
+  box-sizing: border-box;
+}
+
+a.btn + a.btn {
+  margin-top: 15px;
+}
+
+a.btn:active {
+  position: relative;
+  top: 1px;
+}
+
+.footer {
+  width: 100%;
+  text-align: center;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  color: #000;
+}
+
+.footer a {
+  color: #000;
+  text-decoration: none;
+}

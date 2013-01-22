@@ -1,26 +1,74 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="https://raw.github.com/jharding/ghostwriter/master/ghostwriter.js"></script>
+    <script src="jquery.js"></script>
+    <script src="ghostwriter.js"></script>
+    <link rel="stylesheet" type="text/css" href="normalize.css">
+    <link rel="stylesheet" type="text/css" href="ghostwriter.github.css">
   </head>
   <body>
-    <input class="haunt-me" type="text">
+    <a class="gh-ribbon" href="https://github.com/jharding/ghostwriter"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <div class="sticky-footer-wrapper">
+      <div class="container">
+        <h1><a href="http://thejakeharding.com/ghostwriter/">ghostwriter.js</a></h1>
+
+        <div class="ghost">
+          <div class="ghost-head">
+            <div class="ghost-eye"></div>
+            <div class="ghost-eye"></div>
+          </div>
+          <div class="ghost-feet">
+            <div class="ghost-foot-first"></div>
+            <div class="ghost-foot-middle"></div>
+            <div class="ghost-foot-middle"></div>
+            <div class="ghost-foot-middle"></div>
+            <div class="ghost-foot-middle"></div>
+            <div class="ghost-foot-last"></div>
+          </div>
+        </div>
+
+        <input class="haunted">
+
+        <div class="links">
+          <a class="btn" href="https://github.com/jharding/ghostwriter/blob/master/README.md">Documentation</a>
+          <a class="btn" href="https://raw.github.com/jharding/ghostwriter/master/ghostwriter.js">ghostwriter.js</a>
+          <a class="btn" href="https://raw.github.com/jharding/ghostwriter/master/ghostwriter.min.js">ghostwriter.min.js</a>
+          <a class="btn btn-restart-demo" href="#">Play Demo Again</a>
+        </div>
+
+        <div class="sticky-footer-push"></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>&copy; <a href="http://thejakeharding.com">Jake Harding</a> 2013.</p>
+    </div>
 
     <script>
-      var ghost = ghostwriter.haunt({
-        input: '.haunt-me'
+     var haunt = ghostwriter.haunt({
+        input: $('.haunted')
+      , interval: 100
       , manuscript: [
-          'boo!'
-        , ghostwriter.backspace.repeat(4)
-        , 'sorry if i startled you'
+          'the library for haunting'
+        , ghostwriter.trigger('rotate')
         , ghostwriter.selectAll
         , ghostwriter.backspace
-        , 'i am actually quite friendly'
+        , 'enjoy!'
         ]
-      });
+      }).start();
 
-      ghost.start();
+      $('.haunted')
+      .on('rotate', function() { 
+        $('.ghost').addClass('rotate'); 
+      })
+      .on('ghostwriter:start', function() { 
+        $('.ghost').removeClass('rotate'); 
+      })
+
+      $('.btn-restart-demo').on('click', function(e) {
+        haunt.restart();
+        return false;
+      });
     </script>
   </body>
-</hmtl>
+</html>
