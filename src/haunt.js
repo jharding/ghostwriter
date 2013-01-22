@@ -101,7 +101,7 @@ var Haunt = (function() {
     // will get messed up in old ie
     this.$input.focus();
 
-    cursorPos = utils.getCursorPos(this.$input)
+    cursorPos = utils.getCursorPos(this.$input);
     o = {
       cursorPos: cursorPos
     , selection: utils.getSelection(this.$input)
@@ -119,7 +119,7 @@ var Haunt = (function() {
     // all done!
     else {
       this.$input.trigger('ghostwriter:finish');
-      this.loop ? this.restart() : this.stop(true);
+      this.loop ? this.restart() : this.pause(true);
     }
   }
 
