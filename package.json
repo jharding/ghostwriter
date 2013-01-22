@@ -1,6 +1,6 @@
 {
   "name": "ghostwriter",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Programmatically interact with text inputs.",
   "author": {
     "name": "Jake Harding",
