@@ -1,7 +1,11 @@
 {
   "name": "ghostwriter",
-  "private": true,
   "version": "0.0.0",
+  "description": "Programmatically interact with text inputs.",
+  "author": {
+    "name": "Jake Harding",
+    "email": "jacob.s.harding@gmail.com"
+  },
   "dependencies": {},
   "devDependencies": {
     "grunt": "git://github.com/gruntjs/grunt.git",
@@ -14,5 +18,13 @@
   },
   "scripts": {
     "test": "grunt test"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jharding/ghostwriter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jharding/ghostwriter/issues"
+  },
+  "license": "MIT"
 }
