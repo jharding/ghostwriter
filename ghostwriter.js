@@ -293,7 +293,7 @@
                 (utils.isFunction(next) ? next() : next).exec(this.$input, o);
             } else {
                 this.$input.trigger("ghostwriter:finish");
-                this.loop ? this.restart() : this.stop(true);
+                this.loop ? this.restart() : this.pause(true);
             }
         }
         return Haunt;
