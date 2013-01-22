@@ -94,16 +94,23 @@ var Haunt = (function() {
   function write() {
     var next = this.story.shift()
       , inputVal = this.$input.val()
-      , cursorPos = utils.getCursorPos(this.$input)
-      , o = {
-          cursorPos: cursorPos
-        , selection: utils.getSelection(this.$input)
-        , val: {
-            all: inputVal
-          , beforeCursor: inputVal.substr(0, cursorPos)
-          , afterCursor: inputVal.substr(cursorPos)
-          }
-        };
+      , cursorPos
+      , o;
+
+    // make sure input has focus otherwise selection and cursorPos
+    // will get messed up in old ie
+    this.$input.focus();
+
+    cursorPos = utils.getCursorPos(this.$input)
+    o = {
+      cursorPos: cursorPos
+    , selection: utils.getSelection(this.$input)
+    , val: {
+        all: inputVal
+      , beforeCursor: inputVal.substr(0, cursorPos)
+      , afterCursor: inputVal.substr(cursorPos)
+      }
+    };
 
     if (typeof next !== 'undefined') {
       (utils.isFunction(next) ? next() : next).exec(this.$input, o);

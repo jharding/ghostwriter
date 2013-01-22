@@ -1,6 +1,5 @@
 var utils = (function() {
-  var concat = Array.prototype.concat
-    , slice = Array.prototype.slice;
+  var concat = Array.prototype.concat;
 
   return {
     // common utilities
@@ -72,15 +71,46 @@ var utils = (function() {
     }
 
   , getSelection: function($input) {
-      var selectionStart = $input[0].selectionStart
-        , selectionEnd = $input[0].selectionEnd;
+      var input = $input[0]
+        , selectionStart = input.selectionStart
+        , selectionEnd = input.selectionEnd
+        , valueLength
+        , docSelectionRange
+        , selectionRange
+        , endRange
+        , start
+        , end;
 
-      if (utils.isNumber(selectionStart) && utils.isNumber(selectionEnd)) {
-        return { start: selectionStart, end: selectionEnd };
+      if (utils.isNumber(selectionStart)) {
+        start = selectionStart, end = selectionEnd;
       }
 
-      // TODO: fallback solution for IE
-      // http://stackoverflow.com/questions/3053542
+      // oh god, ie...
+      // not caring about carriage returns since ghostwriter
+      // does not currently support textareas
+      // http://stackoverflow.com/a/7745998/393075
+      else if (input.createTextRange && $input.is(':focus')) {
+        start = end = 0;
+        valueLength = input.value.length;
+        docSelectionRange = document.selection.createRange();
+
+        selectionRange = input.createTextRange();
+        selectionRange.moveToBookmark(docSelectionRange.getBookmark());
+
+        while (selectionRange.compareEndPoints('EndToStart', selectionRange)) {
+          selectionRange.moveEnd('character', -1);
+          end++;
+        }
+
+        selectionRange.setEndPoint('StartToStart', input.createTextRange());
+        while (selectionRange.compareEndPoints('EndToStart', selectionRange)) {
+          selectionRange.moveEnd('character', -1);
+          start++;
+          end++;
+        }
+      }
+
+      return { start: start, end: end };
     }
 
   , setSelection: function($input, start, end) {
@@ -91,32 +121,17 @@ var utils = (function() {
         input.setSelectionRange(start, end);
       }
 
-      // TODO: support carriage returns
-      // http://stackoverflow.com/questions/8928660
       else if (input.createTextRange) {
         textRange = input.createTextRange();
         textRange.collapse(true);
-        textRange.moveEnd(start);
-        textRange.moveStart(end);
+        textRange.moveEnd('character', start);
+        textRange.moveStart('character', end);
         textRange.select();
       }
     }
 
   , getCursorPos: function($input) {
-      var selectionStart = $input[0].selectionStart;
-
-      if (utils.isNumber(selectionStart)) {
-       return selectionStart;
-      }
-
-      else if (document.selection) {
-        $input.focus();
-
-        var range = document.selection.createRange();
-        range.moveStart('character', -$input.val().length);
-
-        return range.text.length;
-      }
+      return utils.getSelection($input).start;
     }
 
   , setCursorPos: function($input, pos) {
