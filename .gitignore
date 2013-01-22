@@ -4,5 +4,4 @@
 .grunt
 _SpecRunner.html
 
-/ghostwriter*.js
 /node_modules

@@ -8,8 +8,6 @@ Ghostwriter is a JavaScript library that provides a simple API for programmatica
 Download
 --------
 
-* **Development (0.1.0)** - [ghostwriter.js][ghostwriter.js] 
-* **Production (0.1.0)** - [ghostwriter.min.js][ghostwriter.min.js] *~1.6KB, compressed and gzipped*
 
 Usage
 -----
