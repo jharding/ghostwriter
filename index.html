@@ -51,7 +51,9 @@
       , manuscript: [
           'the library for haunting'
         , ghostwriter.trigger('rotate')
+        , ghostwriter.noop.repeat(3)
         , ghostwriter.selectAll
+        , ghostwriter.noop.repeat(3)
         , ghostwriter.backspace
         , 'enjoy!'
         ]
