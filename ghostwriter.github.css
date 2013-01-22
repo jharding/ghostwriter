@@ -3,12 +3,6 @@
   src: url('ParmaPetit-Normal.ttf');
 }
 
-@media all and (max-width: 600px) {
-  .gh-ribbon {
-    display: none;
-  }
-}
-
 html, body {
   height: 100%;
   background: #262626;
@@ -28,14 +22,14 @@ html, body {
 }
 
 .container {
-  width: 400px;
+  width: 360px;
   margin: 30px auto 100px auto;
   text-align: center;
 }
 
 h1 a {
   margin: 0;
-  font-size: 64px;
+  font-size: 60px;
   line-height: 80px;
   color: #fff;
   text-decoration: none;
@@ -53,10 +47,10 @@ h1 a {
       -ms-transform: rotateY(360deg);
        -o-transform: rotateY(360deg);
           transform: rotateY(360deg);
-  -webkit-transition: 2s all ease;
-     -moz-transition: 2s all ease;
-       -o-transition: 2s all ease;
-          transition: 2s all ease;
+  -webkit-transition: 2s -webkit-transform ease;
+     -moz-transition: 2s -moz-transform ease;
+       -o-transition: 2s -o-transform ease;
+          transition: 2s transform ease;
 }
 
 .ghost-head {
@@ -109,10 +103,13 @@ h1 a {
   background: transparent;
   border: none;
   outline: none;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
   box-sizing: border-box;
 }
 
-a.btn {
+.btn {
   display: block;
   width: 300px;
   margin-left: auto;
@@ -126,11 +123,11 @@ a.btn {
   box-sizing: border-box;
 }
 
-a.btn + a.btn {
+.btn + .btn {
   margin-top: 15px;
 }
 
-a.btn:active {
+.btn:active {
   position: relative;
   top: 1px;
 }
@@ -142,9 +139,28 @@ a.btn:active {
   font-size: 18px;
   line-height: 24px;
   color: #000;
+  box-sizing: border-box;
 }
 
 .footer a {
   color: #000;
   text-decoration: none;
+}
+
+@media all and (max-width: 600px) {
+  .gh-ribbon {
+    display: none;
+  }
+}
+
+@media all and (max-width: 360px) {
+  .haunted,
+  .btn-restart-demo,
+  .footer {
+    display: none;
+  }
+
+  .ghost {
+    margin-bottom: 25px;
+  }
 }

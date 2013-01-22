@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="jquery.js"></script>
-    <script src="ghostwriter.js"></script>
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" href="normalize.css">
     <link rel="stylesheet" type="text/css" href="ghostwriter.github.css">
   </head>
@@ -44,12 +43,14 @@
       <p>&copy; <a href="http://thejakeharding.com">Jake Harding</a> 2013.</p>
     </div>
 
+    <script src="jquery.js"></script>
+    <script src="ghostwriter.js"></script>
     <script>
      var haunt = ghostwriter.haunt({
         input: $('.haunted')
       , interval: 100
       , manuscript: [
-          'the library for haunting'
+          'the library that haunts'
         , ghostwriter.trigger('rotate')
         , ghostwriter.noop.repeat(3)
         , ghostwriter.selectAll
