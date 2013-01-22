@@ -57,7 +57,9 @@
         , ghostwriter.backspace
         , 'enjoy!'
         ]
-      }).start();
+      });
+
+      $(document).ready(function() { haunt.start(); });
 
       $('.haunted')
       .on('rotate', function() { 
