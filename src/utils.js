@@ -13,33 +13,21 @@ var utils = (function() {
       return typeof obj === 'number';
     }
 
-  , isFunction: function(obj) {
-      return $.isFunction(obj);
-    }
+  , isFunction: $.isFunction
 
-  , isArray: function(obj) {
-      return $.isArray(obj);
-    }
+  , isArray: $.isArray
 
-  , each: function() {
-      return $.each.apply($, arguments);
-    }
+  , each: $.each
 
-  , map: function() {
-      return $.map.apply($, arguments);
-    }
+  , map: $.map
 
-  , bind: function() {
-      return $.proxy.apply($, arguments);
-    }
+  , bind: $.proxy
 
   , merge: function(array) {
       return concat.apply([], array);
     }
 
-  , mixin: function() {
-      return $.extend.apply($, arguments);
-    }
+  , mixin: $.extend
 
     // stroke helpers
     // --------------
