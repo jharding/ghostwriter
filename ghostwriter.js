@@ -14,27 +14,15 @@
             isNumber: function(obj) {
                 return typeof obj === "number";
             },
-            isFunction: function(obj) {
-                return $.isFunction(obj);
-            },
-            isArray: function(obj) {
-                return $.isArray(obj);
-            },
-            each: function() {
-                return $.each.apply($, arguments);
-            },
-            map: function() {
-                return $.map.apply($, arguments);
-            },
-            bind: function() {
-                return $.proxy.apply($, arguments);
-            },
+            isFunction: $.isFunction,
+            isArray: $.isArray,
+            each: $.each,
+            map: $.map,
+            bind: $.proxy,
             merge: function(array) {
                 return concat.apply([], array);
             },
-            mixin: function() {
-                return $.extend.apply($, arguments);
-            },
+            mixin: $.extend,
             getKeyEvent: function(type, key) {
                 var event = $.Event(type);
                 if (type === "keypress") {
