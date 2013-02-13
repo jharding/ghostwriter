@@ -230,8 +230,8 @@ License
 Copyright (c) 2013 [Jake Harding](http://thejakeharding.com)  
 Licensed under the MIT License.
 
-[ghostwriter.js]: https://github.com/jharding/ghostwriter/blob/master/ghostwriter.js
-[ghostwriter.min.js]: https://github.com/jharding/ghostwriter/blob/master/ghostwriter.min.js
+[ghostwriter.js]: http://jharding.github.com/ghostwriter/releases/latest/ghostwriter.js
+[ghostwriter.min.js]: http://jharding.github.com/ghostwriter/releases/latest/ghostwriter.min.js
 [strokes]: https://github.com/jharding/ghostwriter#strokes
 [omnihash]: https://twitter.com/JakeHarding/status/292165937250041857
 [options]: https://github.com/jharding/ghostwriter#options
