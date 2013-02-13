@@ -116,9 +116,10 @@ module.exports = function(grunt) {
         cmd: [
           'grunt build'
         , 'git checkout gh-pages'
+        , 'rm -rf releases/latest'
         , 'cp -r <%= buildDir %> releases/<%= pkg.version %>'
         , 'cp -rf <%= buildDir %> releases/latest'
-        , 'git add releases/<%= pkg.version %>'
+        , 'git add releases/<%= pkg.version %> releases/latest'
         , 'git commit --message "Add assets for <%= pkg.version %>."'
         , 'git push'
         , 'git checkout -'
