@@ -1,6 +1,8 @@
 .DS_Store
 *.swp
 
+build
+
 .grunt
 _SpecRunner.html
 

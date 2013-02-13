@@ -8,28 +8,39 @@ var jsFiles = [
 
 module.exports = function(grunt) {
   grunt.initConfig({
-    watch: {
-      js: { files: 'src/**/*.js', tasks: 'uglify:ghostwriter' }
-    }
+    pkg: grunt.file.readJSON('package.json')
+
+  , buildDir: 'build'
+
+  , banner: [
+      '// ghostwriter <%= pkg.version %>'
+    , '// =============<%= new Array(pkg.version.length).join("=") %>'
+    , '// * GitHub: https://github.com/jharding/ghostwriter'
+    , '// * Copyright (c) <%= grunt.template.today("yyyy") %> Jake Harding'
+    , '// * Licensed under the MIT license.\n\n'
+    ].join('\n')
 
   , uglify: {
       options: {
         wrap: 'ghostwriter'
-      , banner: [
-          '// ghostwriter'
-        , '// ==========='
-        , '// * GitHub: https://github.com/jharding/ghostwriter'
-        , '// * Copyright (c) <%= grunt.template.today("yyyy") %> Jake Harding'
-        , '// * Licensed under the MIT license.\n'
-        ].join('\n')
+      , banner: '<%= banner %>'
       }
-    , ghostwriter: {
-        options: { mangle: false, beautify: true, compress: false }
-      , files: { 'ghostwriter.js': jsFilesWithExports }
+    , js: {
+        options: {
+          mangle: false,
+          beautify: true
+        , compress: false
+        }
+      , src: jsFilesWithExports
+      , dest: '<%= buildDir %>/ghostwriter.js'
       }
-    , ghostwriter_min: {
-        options: { mangle: true, compress: true }
-      , files: { 'ghostwriter.min.js': jsFilesWithExports }
+    , jsmin: {
+        options: {
+          mangle: true
+        , compress: true
+        }
+      , src: jsFilesWithExports
+      , dest: '<%= buildDir %>/ghostwriter.min.js'
       }
     }
 
@@ -59,8 +70,11 @@ module.exports = function(grunt) {
     , ghostwriter: ['src/**/*.js']
     }
 
-  , exec: {
-      open_spec_runner: { cmd: 'open _SpecRunner.html' }
+  , watch: {
+      js: {
+        files: 'src/**/*.js'
+      , tasks: 'uglify:js'
+      }
     }
 
   , jasmine: {
@@ -73,6 +87,23 @@ module.exports = function(grunt) {
         }
       }
     }
+
+  , exec: {
+      open_spec_runner: {
+        cmd: 'open _SpecRunner.html'
+      }
+    , publish_assets: {
+        cmd: [
+          'zip -r <%= buildDir %>/typeahead.zip <%= buildDir %>',
+        , 'git checkout gh-pages',
+        , 'cp -r <%= buildDir %> releases/<%= pkg.version %>',
+        , 'cp -rf <%= buildDir %> releases/latest',
+        , 'git add releases/<%= pkg.version %>',
+        , 'git commit --message "Add assets for <%= pkg.version %>."',
+        , 'git checkout -'
+        ].join(' && ')
+      }
+    }
   });
 
   grunt.loadNpmTasks('grunt-exec');
@@ -81,11 +112,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
 
-  grunt.registerTask('default', ['uglify']);
-  grunt.registerTask('lint', ['jshint']);
-  grunt.registerTask('test', ['jasmine']);
-  grunt.registerTask('test:browser', [
-    'jasmine:ghostwriter:build'
-  , 'exec:open_spec_runner'
-  ]);
+  grunt.registerTask('default', 'uglify');
+  grunt.registerTask('lint', 'jshint');
+  grunt.registerTask('test', 'jasmine');
+  grunt.registerTask(
+    'test:browser'
+  , ['jasmine:ghostwriter:build', 'exec:open_spec_runner']
+  );
 };
