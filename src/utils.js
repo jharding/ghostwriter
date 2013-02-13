@@ -35,6 +35,9 @@ var utils = (function() {
   , getKeyEvent: function(type, key) {
       var event = $.Event(type);
 
+      // distinguishes events triggered by ghostwriter
+      event.ghostwriter = true;
+
       if (type === 'keypress') {
         event.which =
         event.keyCode =
