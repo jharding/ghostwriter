@@ -88,31 +88,54 @@ module.exports = function(grunt) {
       }
     }
 
+  , sed: {
+      readme_version: {
+        regex: '\\(\\d+.\\d+.\\d+\\)'
+      , replacement: '(<%= pkg.version %>)'
+      , path: 'README.md'
+      }
+    }
+
   , exec: {
       open_spec_runner: {
         cmd: 'open _SpecRunner.html'
       }
-    , publish_assets: {
+    , bump: {
+        cmd: function(v) {
+          return [
+            'npm version ' + v
+          , 'grunt sed:readme_version'
+          , 'git add README.md'
+          , 'git commit --message "Update version in README."'
+          , 'git push'
+          , 'git push --tags'
+          ].join(' && ');
+        }
+      }
+    , publish: {
         cmd: [
-          'zip -r <%= buildDir %>/typeahead.zip <%= buildDir %>',
-        , 'git checkout gh-pages',
-        , 'cp -r <%= buildDir %> releases/<%= pkg.version %>',
-        , 'cp -rf <%= buildDir %> releases/latest',
-        , 'git add releases/<%= pkg.version %>',
-        , 'git commit --message "Add assets for <%= pkg.version %>."',
+          'grunt build'
+        , 'git checkout gh-pages'
+        , 'cp -r <%= buildDir %> releases/<%= pkg.version %>'
+        , 'cp -rf <%= buildDir %> releases/latest'
+        , 'git add releases/<%= pkg.version %>'
+        , 'git commit --message "Add assets for <%= pkg.version %>."'
+        , 'git push'
         , 'git checkout -'
         ].join(' && ')
       }
     }
   });
 
+  grunt.loadNpmTasks('grunt-sed');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
 
-  grunt.registerTask('default', 'uglify');
+  grunt.registerTask('default', 'build');
+  grunt.registerTask('build', 'uglify');
   grunt.registerTask('lint', 'jshint');
   grunt.registerTask('test', 'jasmine');
   grunt.registerTask(
