@@ -160,13 +160,13 @@ Example
 <html>
   <head>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="https://raw.github.com/jharding/ghostwriter/master/ghostwriter.js"></script>
+    <script src="http://thejakeharding.com/ghostwriter/releases/latest/ghostwriter.js"></script>
   </head>
   <body>
     <input class="haunt-me" type="text">
 
     <script>
-      var ghost = ghostwriter.haunt({
+      var haunt = ghostwriter.haunt({
         input: '.haunt-me'
       , manuscript: [
           'boo!'
@@ -178,7 +178,7 @@ Example
         ]
       });
 
-      ghost.start();
+      haunt.start();
     </script>
   </body>
 </hmtl>
