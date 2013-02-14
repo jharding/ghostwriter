@@ -10,7 +10,7 @@
   "devDependencies": {
     "grunt": "0.4.0rc7",
     "grunt-cli": "~0.1.6",
-    "grunt-sed": "0.0.0",
+    "grunt-sed": "0.1.0",
     "grunt-exec": "0.4.0rc1",
     "grunt-contrib-watch": "0.2.0rc7",
     "grunt-contrib-jshint": "0.1.1rc6",

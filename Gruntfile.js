@@ -90,7 +90,7 @@ module.exports = function(grunt) {
 
   , sed: {
       readme_version: {
-        regex: '\\(\\d+.\\d+.\\d+\\)'
+        pattern: /\(\d+\.\d+\.\d+\)/g
       , replacement: '(<%= pkg.version %>)'
       , path: 'README.md'
       }
